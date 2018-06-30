@@ -1,2 +1,10 @@
-# gofn-example
-Simple example of how to use gofn
+# gofn Example
+
+```
+docker build -t sum sum/.
+```
+
+
+```
+go run main.go
+```
