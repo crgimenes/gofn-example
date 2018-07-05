@@ -2,7 +2,9 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/gofn/gofn"
@@ -10,8 +12,25 @@ import (
 )
 
 func main() {
-	imageName := "sum"
-	stdin := `{"factor1": 10, "factor2": 10}`
+	imgName := flag.String("image", "", "Docker image name")
+	p1 := flag.String("p1", "", "parameter 1")
+	p2 := flag.String("p2", "", "parameter 2")
+	flag.Parse()
+	var imageName, stdin string
+	switch *imgName {
+	case "upper":
+		imageName = "upper"
+		stdin = fmt.Sprintf(`%v`, *p1)
+	case "encode":
+		imageName = "encode"
+		stdin = fmt.Sprintf(`{"phrase": %q}`, *p1)
+	case "sum":
+		imageName = "sum"
+		stdin = fmt.Sprintf(`{"factor1": %v, "factor2": %v}`, *p1, *p2)
+	default:
+		fmt.Printf("invalid parameter %q\n", *imgName)
+		os.Exit(-1)
+	}
 	stdout, stderr, err := run(imageName, stdin)
 	if err != nil {
 		fmt.Println(err)
