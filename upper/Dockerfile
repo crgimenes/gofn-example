@@ -1,4 +1,7 @@
-FROM java:8
+FROM clojure:alpine
 
-ADD runner/target/runner-0.1.0-SNAPSHOT-standalone.jar /runner-0.1.0-SNAPSHOT-standalone.jar
-CMD ["java", "-jar", "runner-0.1.0-SNAPSHOT-standalone.jar"]
+ADD runner /srv/app
+WORKDIR /srv/app
+RUN lein uberjar
+
+CMD ["java", "-jar", "target/runner-0.1.1-standalone.jar"]
