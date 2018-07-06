@@ -1,9 +1,10 @@
 (ns runner.core
   (:gen-class))
 
-(defn upper []
-  (print (clojure.string/upper-case (slurp *in*)))
-  (flush))
+(defn upper [stdin]
+  (clojure.string/upper-case stdin))
 
 (defn -main []
-  (upper))
+  (let [stdin (slurp *in*)]
+    (print (upper stdin)))
+  (flush))
